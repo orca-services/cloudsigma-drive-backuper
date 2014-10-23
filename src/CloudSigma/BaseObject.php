@@ -7,7 +7,7 @@ namespace OrcaServices\CloudSigmaDriveBackuper\CloudSigma;
  *
  * @package OrcaServices\CloudSigmaDriveBackuper\CloudSigma
  */
-class BaseObject {
+abstract class BaseObject {
 
 	/**
 	 * The object data array.

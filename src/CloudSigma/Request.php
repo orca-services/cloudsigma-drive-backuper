@@ -35,11 +35,11 @@ class Request {
 	protected $_directBaseUrl;
 
 	/**
-	 * The authentication settings.
+	 * The default settings.
 	 *
 	 * @var array
 	 */
-	protected $_auth = array();
+	protected $_defaults = [];
 
 	/**
 	 * Set the guzzle client.
@@ -51,14 +51,14 @@ class Request {
 		$this->_directBaseUrl = sprintf('https://direct.%s.cloudsigma.com/api/2.0/',
 			$location
 		);
-		$this->_auth = [$username, $password];
+		$this->_defaults = [
+			'auth' =>  [$username, $password],
+			'verify' => false,
+		];
 
 		$this->_guzzleClient = new GuzzleClient([
 			'base_url' => $this->_baseUrl,
-			'defaults' => [
-				'auth' =>  $this->_auth,
-				'verify' => false,
-			]
+			'defaults' => $this->_defaults,
 		]);
 	}
 
@@ -72,6 +72,29 @@ class Request {
 		$response = $this->_guzzleClient->get(self::DRIVES . '?name=' . $filter);
 		$driveList = $response->json();
 		return new DriveList($driveList);
+	}
+
+	/**
+	 * Get single drive.
+	 *
+	 * @param $driveUuid
+	 * @return Drive The list of drives found.
+	 */
+	public function getDrive($driveUuid) {
+		$response = $this->_guzzleClient->get(self::DRIVES . $driveUuid);
+		$drive = $response->json();
+		return new Drive($drive);
+	}
+
+	/**
+	 * Delete a drive.
+	 *
+	 * @param string $driveUuid The UUID of the drive to delete.
+	 * @return bool True the drive was deleted, else false.
+	 */
+	public function deleteDrive($driveUuid) {
+		$response = $this->_guzzleClient->delete(self::DRIVES . $driveUuid);
+		return ($response->getStatusCode() === '204');
 	}
 
 	/**
@@ -101,6 +124,25 @@ class Request {
 		$drive = $this->_guzzleClient->post(self::SNAPSHOTS . $snapshotUuid . '/action/?do=clone');
 		$drive = $drive->json();
 		return new Drive($drive);
+	}
+
+	/**
+	 * Delete a snapshot.
+	 *
+	 * @param string $snapshotUuid The UUID of the snapshot to delete.
+	 * @return bool True the drive was deleted, else false.
+	 */
+	public function deleteSnapshot($snapshotUuid) {
+		$response = $this->_guzzleClient->delete(self::SNAPSHOTS . $snapshotUuid);
+		return ($response->getStatusCode() === '204');
+	}
+
+	public function downloadDrive($driveUuid, $downloadPath) {
+		$response = $this->_guzzleClient->get(
+			$this->_directBaseUrl . self::DRIVES . $driveUuid . '/download/',
+			$this->_defaults + ['save_to' => $downloadPath]
+		);
+		return true;
 	}
 
 } 

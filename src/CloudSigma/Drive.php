@@ -9,6 +9,7 @@ namespace OrcaServices\CloudSigmaDriveBackuper\CloudSigma;
  */
 class Drive {
 	const MOUNTED = 'mounted';
+	const UNMOUNTED = 'unmounted';
 
 	protected $_driveData;
 
@@ -32,6 +33,15 @@ class Drive {
 	 */
 	public function isMounted() {
 		return ($this->_getMountState() == self::MOUNTED);
+	}
+
+	/**
+	 * Is the drive ready?
+	 *
+	 * @return bool True if mounted, else false.
+	 */
+	public function isReady() {
+		return ($this->_getMountState() == self::UNMOUNTED);
 	}
 
 	/**

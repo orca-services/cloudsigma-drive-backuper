@@ -5,12 +5,20 @@ namespace OrcaServices\CloudSigmaDriveBackuper\CloudSigma;
 use GuzzleHttp\Client as GuzzleClient;
 
 /**
- * The CloudSigma Request
+ * The CloudSigma API Request
  *
  * @package OrcaServices\CloudSigmaDriveBackuper\CloudSigma
  */
 class Request {
+
+	/**
+	 * Snapshots URL
+	 */
 	const SNAPSHOTS = 'snapshots/';
+
+	/**
+	 * Drives URL
+	 */
 	const DRIVES = 'drives/';
 
 	/**
@@ -42,7 +50,11 @@ class Request {
 	protected $_defaults = [];
 
 	/**
-	 * Set the guzzle client.
+	 * Set the guzzle client and the default settings.
+	 *
+	 * @param string $location The CloudSigma location to communicate with.
+	 * @param string $username The CloudSigma username.
+	 * @param string $password The CloudSigma password.
 	 */
 	function __construct($location, $username, $password) {
 		$this->_baseUrl = sprintf('https://%s.cloudsigma.com/api/2.0/',
@@ -53,7 +65,7 @@ class Request {
 		);
 		$this->_defaults = [
 			'auth' =>  [$username, $password],
-			'verify' => false,
+			'verify' => false, // Unfortunately Guzzle couldn't verify the cert CA
 		];
 
 		$this->_guzzleClient = new GuzzleClient([
@@ -101,7 +113,7 @@ class Request {
 	 * Create a snapshot of a drive.
 	 *
 	 * @param string $driveUuid The drive's UUID to create a snapshot from.
-	 * @return array The snapshot data array
+	 * @return Snapshot The created snapshot object.
 	 */
 	public function createSnapshot($driveUuid) {
 		$data = [
@@ -137,10 +149,18 @@ class Request {
 		return ($response->getStatusCode() === '204');
 	}
 
-	public function downloadDrive($driveUuid, $downloadPath) {
+	/**
+	 * Download a drive to a file.
+	 *
+	 * @param string $driveUuid The UUID of the drive to download.
+	 * @param resource|string $saveTo Either save to a resource or file path.
+	 * @return bool Always true.
+	 * @todo Improve return value.
+	 */
+	public function downloadDrive($driveUuid, $saveTo) {
 		$response = $this->_guzzleClient->get(
 			$this->_directBaseUrl . self::DRIVES . $driveUuid . '/download/',
-			$this->_defaults + ['save_to' => $downloadPath]
+			$this->_defaults + ['save_to' => $saveTo]
 		);
 		return true;
 	}

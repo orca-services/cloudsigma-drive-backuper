@@ -46,4 +46,4 @@ class Drive extends BaseObject {
 		return $this->_objectData['status'];
 	}
 
-} 
+}

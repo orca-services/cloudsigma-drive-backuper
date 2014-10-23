@@ -19,4 +19,4 @@ class SnapshotList extends BaseObjectList {
 	}
 
 
-} 
+}

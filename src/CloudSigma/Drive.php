@@ -7,24 +7,17 @@ namespace OrcaServices\CloudSigmaDriveBackuper\CloudSigma;
  *
  * @package OrcaServices\CloudSigmaDriveBackuper\CloudSigma
  */
-class Drive {
-	const MOUNTED = 'mounted';
-	const UNMOUNTED = 'unmounted';
-
-	protected $_driveData;
-
-	function __construct($driveData) {
-		$this->_driveData = $driveData;
-	}
+class Drive extends BaseObject {
 
 	/**
-	 * Returns the UUID
-	 *
-	 * @return string The UUID.
+	 * Mounted
 	 */
-	public function getUuid() {
-		return $this->_driveData['uuid'];
-	}
+	const MOUNTED = 'mounted';
+
+	/**
+	 * Unmounted
+	 */
+	const UNMOUNTED = 'unmounted';
 
 	/**
 	 * Is the drive mounted?
@@ -50,7 +43,7 @@ class Drive {
 	 * @return string The mount state.
 	 */
 	protected function _getMountState() {
-		return $this->_driveData['status'];
+		return $this->_objectData['status'];
 	}
 
 } 

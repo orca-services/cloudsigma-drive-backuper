@@ -7,20 +7,5 @@ namespace OrcaServices\CloudSigmaDriveBackuper\CloudSigma;
  *
  * @package OrcaServices\CloudSigmaDriveBackuper\CloudSigma
  */
-class Snapshot {
-
-	protected $_snapshotData;
-
-	function __construct($snapshotData) {
-		$this->_snapshotData = $snapshotData;
-	}
-
-	/**
-	 * Returns the UUID
-	 *
-	 * @return string The UUID.
-	 */
-	public function getUuid() {
-		return $this->_snapshotData['uuid'];
-	}
+class Snapshot extends BaseObject {
 }

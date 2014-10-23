@@ -10,6 +10,8 @@ use GuzzleHttp\Client as GuzzleClient;
  * @package OrcaServices\CloudSigmaDriveBackuper\CloudSigma
  */
 class Request {
+	const SNAPSHOTS = 'snapshots/';
+	const DRIVES = 'drives/';
 
 	/**
 	 * The guzzle client.
@@ -67,9 +69,27 @@ class Request {
 	 * @return DriveList The list of drives found.
 	 */
 	public function getDriveList($filter) {
-		$response = $this->_guzzleClient->get('drives' . '?name=' . $filter);
+		$response = $this->_guzzleClient->get(self::DRIVES . '?name=' . $filter);
 		$driveList = $response->json();
 		return new DriveList($driveList);
+	}
+
+	/**
+	 * Create a snapshot of a drive.
+	 *
+	 * @param string $driveUuid The drive's UUID to create a snapshot from.
+	 * @return array The snapshot data array
+	 * @todo Change return value to Snapshot object
+	 */
+	public function createSnapshot($driveUuid) {
+		$data = [
+			'drive' => $driveUuid,
+			//'meta' => [],
+			'name' => 'Automatic snapshot',
+		];
+		$snapshot = $this->_guzzleClient->post(self::SNAPSHOTS, ['json' => $data]);
+		$snapshot = $snapshot->json();
+		return $snapshot;
 	}
 
 } 

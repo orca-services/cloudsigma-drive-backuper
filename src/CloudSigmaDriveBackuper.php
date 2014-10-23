@@ -79,24 +79,11 @@ class CloudSigmaDriveBackuper extends Command
 		);
 		$output->writeln($infoText);
 
-		$url = sprintf('https://%s.cloudsigma.com/api/2.0/drives/detail/?name=%s',
-			$location,
-			$driveName
-		);
-
-		$output->writeln($url);
-
 		$request = new Request($location, $username, $password);
 		$driveList = $request->getDriveList($driveName);
 		$drive = $driveList->first();
 		$isMounted = $drive->isMounted();
-
-		/*
-		$statusCode = $response->getStatusCode();
-		$output->writeln(sprintf('Result Status code: %s',
-			$statusCode
-		));
-		*/
+		$request->createSnapshot($drive->getUuid());
 
 		$output->writeln('Finished');
 	}

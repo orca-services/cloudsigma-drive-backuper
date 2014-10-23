@@ -17,6 +17,15 @@ class Drive {
 	}
 
 	/**
+	 * Returns the UUID
+	 *
+	 * @return string The UUID.
+	 */
+	public function getUuid() {
+		return $this->_driveData['uuid'];
+	}
+
+	/**
 	 * Is the drive mounted?
 	 *
 	 * @return bool True if mounted, else false.

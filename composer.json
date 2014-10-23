@@ -8,8 +8,18 @@
 		{
 			"name": "Marc Würth",
 			"email": "marc.wuerth@orca-services.ch"
-		}
+		},
+        {
+            "name": "Other contributors",
+            "homepage": "https://github.com/orca-services/cloudsigma-drive-backuper/graphs/contributors",
+            "role": "Contributors"
+        }
 	],
+    "support": {
+        "email": "development@orca-services.ch",
+        "source": "https://github.com/orca-services/cloudsigma-drive-backuper",
+        "issues": "https://github.com/orca-services/cloudsigma-drive-backuper/issues"
+    },
 	"require": {
 		"php": ">=5.4.0",
 		"guzzlehttp/guzzle": "5.0.*",

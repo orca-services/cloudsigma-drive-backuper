@@ -83,7 +83,8 @@ class CloudSigmaDriveBackuper extends Command
 		$driveList = $request->getDriveList($driveName);
 		$drive = $driveList->first();
 		$isMounted = $drive->isMounted();
-		$request->createSnapshot($drive->getUuid());
+		$snapshot = $request->createSnapshot($drive->getUuid());
+		$clonedDrive = $request->cloneSnapshot($snapshot->getUuid());
 
 		$output->writeln('Finished');
 	}

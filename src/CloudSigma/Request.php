@@ -79,17 +79,28 @@ class Request {
 	 *
 	 * @param string $driveUuid The drive's UUID to create a snapshot from.
 	 * @return array The snapshot data array
-	 * @todo Change return value to Snapshot object
 	 */
 	public function createSnapshot($driveUuid) {
 		$data = [
 			'drive' => $driveUuid,
-			//'meta' => [],
 			'name' => 'Automatic snapshot',
 		];
-		$snapshot = $this->_guzzleClient->post(self::SNAPSHOTS, ['json' => $data]);
-		$snapshot = $snapshot->json();
-		return $snapshot;
+		$snapshots = $this->_guzzleClient->post(self::SNAPSHOTS, ['json' => $data]);
+		$snapshots = $snapshots->json();
+		$snapshots = new SnapshotList($snapshots);
+		return $snapshots->first();
+	}
+
+	/**
+	 * Clone a snapshot to a drive
+	 *
+	 * @param $snapshotUuid
+	 * @return Drive The cloned drive.
+	 */
+	public function cloneSnapshot($snapshotUuid) {
+		$drive = $this->_guzzleClient->post(self::SNAPSHOTS . $snapshotUuid . '/action/?do=clone');
+		$drive = $drive->json();
+		return new Drive($drive);
 	}
 
 } 

@@ -1,9 +1,16 @@
-Cloudsigma Drive Backuper
+CloudSigma Drive Backuper
 =========================
 
 [![Build Status](https://travis-ci.org/orca-services/cloudsigma-drive-backuper.svg)](https://travis-ci.org/orca-services/cloudsigma-drive-backuper)
 
-A PHP script to backup drives from CloudSigma
+A PHP script to backup drives from CloudSigma.
+
+https://www.cloudsigma.com/
+
+Using Symfony Console, Guzzle and some self-made CloudSigma API abstraction layer.
+
+http://guzzlephp.org/
+https://github.com/symfony/Console
 
 ## Installation
 

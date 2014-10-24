@@ -11,7 +11,9 @@
  * @author ORCA Services AG <development@orca-services.ch>
  */
 
-use OrcaServices\CloudSigmaDriveBackuper;
+namespace OrcaServices\CloudSigmaDriveBackuper\Test;
+
+use OrcaServices\CloudSigmaDriveBackuper\CloudSigmaDriveBackuper;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -19,6 +21,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * CloudSigmaDriveBackup Test
  *
  * @covers CloudSigmaDriveBackuper
+ * @link http://symfony.com/doc/current/components/console/introduction.html#testing-commands
  */
 class CloudSigmaDriveBackuperTest extends \PHPUnit_Framework_TestCase {
 
@@ -29,11 +32,12 @@ class CloudSigmaDriveBackuperTest extends \PHPUnit_Framework_TestCase {
 	 * @covers ::execute
 	 */
 	public function testExecute() {
-		/*$application = new Application();
+		$application = new Application();
 		$application->add(new CloudSigmaDriveBackuper());
 
-		$command = $application->find('demo:greet');
-		$commandTester = new CommandTester($command);
+		$command = $application->find('orca-services:cloudsigma-drive-backuper');
+
+		/*$commandTester = new CommandTester($command);
 		$commandTester->execute(array('command' => $command->getName()));
 
 		$this->assertRegExp('/.../', $commandTester->getDisplay());*/
